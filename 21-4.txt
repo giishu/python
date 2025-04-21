@@ -1,0 +1,7 @@
+Para instalar pipenv: pipenv install --python 3.10
+Es para correr los tests en los proyectos utilizados.
+pipenv install pytest --dev: instala la librería pytest dentro del entorno de desarrollo.
+
+Activar el entorno: pipenv shell
+
+Para correr: pipenv run pytest test/test_practica1.py
