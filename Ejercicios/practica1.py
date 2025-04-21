@@ -9,15 +9,20 @@ import sys
 def lee_grafo_stdin(grafo):
     """
     Recibe como argumento un grafo representado como una lista de tipo:
-    Ejemplo Entrada: 
        ['3', 'A', 'B', 'C', 'A B', 'B C', 'C B']
-    
-    donde el 1er elemento se corresponde a la cantidad de vertices,
-    y por ultimo las aristas existentes.
-
-    Ejemplo retorno: 
+    Devuelve:
         (['A','B','C'],[('A','B'),('B','C'),('C','B')])
     """
+    cantidad_vertices = int(grafo[0])
+    vertices = grafo[1:1 + cantidad_vertices]
+    aristas = []
+
+    for linea in grafo[1 + cantidad_vertices:]:
+        origen, destino = linea.split()
+        aristas.append((origen, destino))
+
+    return (vertices, aristas)
+
     pass
 
 def lee_grafo_archivo(file_path):
