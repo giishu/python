@@ -39,12 +39,26 @@ def lee_grafo_archivo(file_path):
     Ejemplo retorno: 
         (['A','B','C'],[('A','B'),('B','C'),('C','B')])
     '''
+
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        grafo = [line.strip() for line in lines if line.strip()]
+    
+    return lee_grafo_stdin(grafo)    
+
     pass
 
 def imprime_grafo_lista(grafo):
     '''
     Muestra por pantalla un grafo. El argumento esta en formato de lista.
     '''
+
+    vertices, aristas = grafo
+    print("Vertices:", vertices)
+    print("Aristas:")
+    for origen, destino in aristas:
+        print(f"{origen} - {destino}")
+
     pass
 
 #################### FIN EJERCICIO PRACTICA ####################
@@ -75,16 +89,18 @@ def lee_entrada_1():
 
     
 def lee_entrada_2():
-    count = 0
+    lineas = []
     try:
         while True:
-            line = input()
-            count = count + 1
-            print ('Linea: [{0}]').format(line)
+            linea = input().strip()
+            if not linea:
+                break
+            lineas.append(linea)
+            print(f'Línea leída: [{linea}]') 
     except EOFError:
         pass
-    
-    print ('leidas {0} lineas').format(count)
+    print(f'Total líneas leídas: {len(lineas)}')
+    return lineas
 
 def mostrar_saludo():
     print("Hola mundo")

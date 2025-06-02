@@ -48,6 +48,31 @@ def componentes_conexas(grafo_lista):
     Ejemplo formato salida: 
         [['A, 'B','C'], ['D','E']]
     '''
+
+    vertices, aristas = grafo_lista
+    visitados = set()
+    conexiones = {v: set() for v in vertices}
+    componentes = []
+
+    for origen, destino in aristas:
+        conexiones[origen].add(destino)
+        conexiones[destino].add(origen)
+    
+    for v in vertices:
+        for v in not visitados:
+            pila = [v]
+            componente = []
+            while pila:
+                actual = pila.pop()
+                if actual not in visitados:
+                    visitados.add(actual)
+                    componente.append(actual)
+                    pila.extend(conexiones[actual] - visitados)
+    
+            componentes.append(componente)
+    
+    return componentes
+
     pass
 
 def es_conexo(grafo_lista):
@@ -92,7 +117,16 @@ def aristas_de(grafo, vertice):
     	[('A', 'B'), ('A', 'C')]
     '''
 
-    
+    n = int(grafo[0])
+    aristas_lista = grafo[n+1:]
+    aristas = []
+
+    for arista in aristas_lista:
+        origen, destino = arista.split()
+        if origen == vertice:
+            aristas.append((origen, destino))
+
+    return aristas
 
     pass
 
@@ -106,6 +140,18 @@ def grafo_inducido(grafo, subconjunto_vertices):
     Ejemplo formato salida:
     	(['A', 'B', 'C'], [('A', 'B'), ('A', 'C')])
     '''
+
+    n = int(grafo[0])
+    aristas_lista = grafo[n+1:]
+    aristas_inducidas = []
+
+    for arista in aristas_lista:
+        origen, destino = arista.split()
+        if origen in subconjunto_vertices and destino in subconjunto_vertices:
+            aristas_inducidas.append((origen, destino))
+
+    return (subconjunto_vertices, aristas_inducidas)
+
     pass
 
 def grafo_complementario(grafo):
@@ -116,4 +162,23 @@ def grafo_complementario(grafo):
     Ejemplo formato salida:
     	(['A', 'B', 'C'], [('A', 'C'), ('B', 'A'), ('C', 'A'), ('C', 'B')])
     '''
+
+    n = int(grafo[0])
+    aristas_lista = grafo[n+1:]
+    vertices_lista = grafo[1:n+1]
+
+    aristas_existentes = set()
+    for arista in aristas_lista:
+        origen, destino = arista.split()
+        aristas_existentes.add((origen, destino))
+
+    aristas_complementarias = []
+
+    for origen in vertices_lista:
+        for destino in vertices_lista:
+            if origen != destino and (origen, destino) not in aristas_existentes:
+                aristas_complementarias.append((origen, destino))
+
+    return (vertices_lista, aristas_complementarias)
+
     pass
